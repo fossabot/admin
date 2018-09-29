@@ -1,0 +1,9 @@
+mutation($email: EmailAddress!, $password: String!) {
+  session: createSession(data: {
+    email: $email
+    password: $password
+  }) {
+    id
+    token
+  }
+}

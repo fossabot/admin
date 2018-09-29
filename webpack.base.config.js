@@ -82,7 +82,7 @@ const config = {
     'rules': [
       {
         'test':   /\.graphql$/,
-        'loader': require.resolve('graphql-import-loader'),
+        'loader': require.resolve('graphql-tag/loader'),
       },
       {
         'test':    /\.js$/,

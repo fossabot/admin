@@ -27,6 +27,7 @@ export default {
       'email':    '',
       'password': '',
       'loading':  true,
+      'error':    '',
     }
   },
   mounted () {
@@ -36,19 +37,30 @@ export default {
     async submitLogin () {
       this.loading = true
 
-      const {data,} = await this.$apollo.mutate({
-        'mutation':  loginMutation,
-        'variables': {
-          'email':    this.email,
-          'password': this.password,
-        },
-      })
+      try {
+        const {data,} = await this.$apollo.mutate({
+          'mutation':  loginMutation,
+          'variables': {
+            'email':    this.email,
+            'password': this.password,
+          },
+        })
 
-      this.$apolloHelpers.onLogin(data.session.token)
-      this.clear()
+        if (!data.session) {
+          throw new Error('Login unsuccessful')
+        }
+
+        this.$apolloHelpers.onLogin(data.session.token)
+        this.clear()
+
+        this.loading = false
+        this.error = ''
+        this.$router.push(this.$route.query.resource || '/')
+      } catch (error) {
+        this.error = error.message
+      }
 
       this.loading = false
-      this.$router.push(this.$route.query.resource || '/')
     },
     logout () {
       this.$apolloHelpers.onLogout()
@@ -70,28 +82,37 @@ export default {
           form(@submit.prevent="submitLogin")
             v-card.elevation-8
               v-toolbar(dark, color="primary")
-                h1 You must log in to access this resource
+                h1(v-if="$route.query.resource")
+                  | You must log in to access
+                  |
+                  b {{$route.query.resource}}
+                h1(v-else)
+                  | Please log in
 
               v-card-text
-                  v-text-field(
-                    label="E-mail",
-                    data-vv-name="e-mail"
-                    v-model="email"
-                    v-validate="'required'"
-                    :error-messages="errors.collect('e-mail')"
-                    required
-                    :disabled="loading"
-                  )
-                  v-text-field(
-                    label="Password",
-                    data-vv-name="password"
-                    v-model="password",
-                    type="password"
-                    v-validate="'required'"
-                    :error-messages="errors.collect('password')"
-                    required
-                    :disabled="loading"
-                  )
+                v-text-field(
+                  label="E-mail",
+                  data-vv-name="e-mail"
+                  v-model="email"
+                  v-validate="'required|email'"
+                  :error-messages="errors.collect('e-mail')"
+                  required
+                  :disabled="loading"
+                )
+                v-text-field(
+                  label="Password",
+                  data-vv-name="password"
+                  v-model="password",
+                  type="password"
+                  v-validate="'required'"
+                  :error-messages="errors.collect('password')"
+                  required
+                  :disabled="loading"
+                )
+
+              transition(name="page")
+                v-alert(v-if="error", :value="true", type="error")
+                  | {{error}}
 
               v-card-actions
                 v-btn(type="submit", color="primary", :loading="loading")

@@ -43,6 +43,8 @@ module.exports = {
   },
   'css': [
     '~~/assets/styl/main.styl',
+    '~~/assets/scss/main.scss',
+    'material-design-icons-iconfont/dist/material-design-icons.css',
   ],
   'build': {
     postcss,
@@ -61,30 +63,10 @@ module.exports = {
     //     },
     //   },
     // },
-
-    // extend (config, ctx) {
-    //   config.module.rules.push({
-    //     'test':   /\.pug$/,
-    //     'loader': 'pug-plain-loader',
-    //   })
-    //
-    //   config.module.rules.push({
-    //     'test': /\.md$/,
-    //     'use':  [
-    //       {
-    //         'loader': 'html-loader',
-    //       },
-    //       {
-    //         'loader': 'markdown-loader',
-    //       },
-    //     ],
-    //   })
-    //
-    //   return config
-    // },
   },
   'env':     process.env,
   'plugins': [
+    '~/plugins/vue-viewer.js',
     '~/plugins/vue-moment.js',
     '~/plugins/vue-markdown.js',
     '~/plugins/vue-filters.js',
@@ -97,18 +79,12 @@ module.exports = {
     },
   ],
   'modules': [
-    // TODO: Uncomment after https://github.com/apollographql/apollo-link/issues/773
     '@nuxtjs/apollo',
   ],
   'apollo': {
+    'tokenName':     'graphline-session',
     'clientConfigs': {
-      'default': {
-        'httpEndpoint':    process.env.API_HTTP,
-        // 'wsEndpoint':      process.env.API_WS,
-        'httpLinkOptions': {
-          'credentials': 'same-origin',
-        },
-      },
+      'default': '~~/apollo/clients/default.js',
     },
   },
 }

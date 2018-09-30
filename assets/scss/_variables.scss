@@ -1,0 +1,63 @@
+@import './functional/colour-diff';
+@import './functional/map-deep-set';
+
+$tones: (
+  "brand-primary":    #005FFF,
+  "brand-dark":       #000FE5,
+  "brand-secondary":  #FFB450,
+  "brand-background": #3E28B0,
+  "brand-highlight":  #024991,
+);
+
+$brand-diff: colour-diff(map-get($tones, 'brand-dark'), map-get($tones, 'brand-primary'));
+
+$layout: (
+  "base-size":    5.5rem,
+  "radius-small": 0,
+  "radius":       0,
+  "radius-large": 0,
+  "gap":          16px
+);
+
+$animations: (
+  "animation-function": cubic-bezier(.6,.01,.6,.99),
+  "shorttime":          .3s,
+  "longtime":           .4s
+);
+
+$colors: (
+  'brand-primary':    (map-get($tones, 'brand-primary'),    text-for-bg(map-get($tones, 'brand-primary'))),
+  "brand-dark":       (map-get($tones, 'brand-dark'),             text-for-bg(map-get($tones, 'brand-primary'))),
+  "brand-secondary":  (map-get($tones, 'brand-secondary'),  text-for-bg(map-get($tones, 'brand-primary'))),
+  "brand-background": (map-get($tones, 'brand-background'), text-for-bg(map-get($tones, 'brand-primary'))),
+  "brand-highlight":  (map-get($tones, 'brand-highlight'),  text-for-bg(map-get($tones, 'brand-primary'))),
+);
+
+$gradients: ();
+
+@each $name, $colour in $tones {
+  $diffed: adjust-hue(
+    lighten($colour, map-get($brand-diff, 'lighten')),
+    map-get($brand-diff, 'adjust-hue')
+  );
+
+  $gradients: map-deep-set(
+    $gradients,
+    #{$name},
+    $diffed
+  );
+};
+
+@each $toneName, $tone in $tones {
+  @each $gradientName, $gradient in $gradients {
+    @if $toneName == $gradientName {
+      $newMap: ($tone, $gradient);
+
+      $gradients: map-deep-set(
+        $gradients,
+        #{$toneName},
+        $newMap
+      );
+    }
+  }
+};

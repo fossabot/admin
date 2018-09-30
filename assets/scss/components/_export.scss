@@ -1,0 +1,12 @@
+@import './variables';
+
+:root {
+  @each $color in $colors {
+    --#{nth($color, 1)}: #{nth(nth($color, 2), 1)};
+    --#{nth($color, 1)}-text: #{nth(nth($color, 2), 2)};
+  }
+
+  @each $gradient in $gradients {
+    --gradient-#{nth($gradient, 1)}: #{nth($gradient, 2)};
+  }
+}

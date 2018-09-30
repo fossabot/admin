@@ -21,7 +21,7 @@ export default {
         {
           'route':   '/tools',
           'display': 'Tools',
-          'icon':    'toys',
+          'icon':    'build',
         },
         {
           'route':   '/settings',

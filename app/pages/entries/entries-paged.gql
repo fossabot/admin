@@ -1,0 +1,18 @@
+query($first: Int = 50, $skip: Int = 0) {
+  entries(first: $first, skip: $skip) {
+    id
+    display
+    published
+    publishedAt
+    createdAt
+    updatedAt
+    createdBy {
+      id
+      display
+    }
+    updatedBy {
+      id
+      display
+    }
+  }
+}

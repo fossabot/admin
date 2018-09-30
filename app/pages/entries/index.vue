@@ -133,4 +133,25 @@ export default {
                 v-icon delete
               span#entry-table-expand-delete
                 | Trash
+
+        v-card
+          v-container
+            v-layout(row, wrap)
+              v-flex(xs12)
+                v-layout(row)
+                  b Author
+                  v-spacer
+                  span {{props.item.createdBy.display}}
+
+              v-flex(xs12)
+                v-layout(row)
+                  b Created at
+                  v-spacer
+                  span {{props.item.createdAt}}
+
+              v-flex(xs12)
+                v-layout(row)
+                  b Published at
+                  v-spacer
+                  span {{props.item.publishedAt}}
 </template>

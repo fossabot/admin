@@ -1,4 +1,6 @@
 import cookie from 'js-cookie'
+import {link as browserLink,} from './_browser-link'
+import {link as serverLink,} from './_server-link'
 
 export default ({req,}) => {
   return {
@@ -7,6 +9,10 @@ export default ({req,}) => {
     'httpLinkOptions': {
       'credentials': 'same-origin',
     },
+
+    'link': process.server
+      ? serverLink
+      : browserLink,
 
     getAuth (tokenName) {
       if (process.server) {

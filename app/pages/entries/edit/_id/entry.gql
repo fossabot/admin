@@ -1,0 +1,10 @@
+query($id: ID!) {
+  entry(where: {
+    id: $id
+  }) {
+    id
+    display
+    published
+    content
+  }
+}

@@ -1,0 +1,5 @@
+mutation($display: String!, $content: String!) {
+  updateEntry(where: {
+
+  })
+}

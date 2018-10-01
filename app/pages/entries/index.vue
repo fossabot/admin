@@ -52,8 +52,6 @@ export default {
       v-layout(row, align-center)
         v-btn(fab, flat, small, color="accent")
           v-icon add
-        v-btn(fab, flat, small, color="accent")
-          v-icon edit
 
         v-spacer
 
@@ -99,6 +97,8 @@ export default {
               v-btn(
                 slot="activator", color="primary", flat, fab, small
                 aria-labelledby="entry-table-expand-edit"
+                nuxt
+                :to="'/entries/edit/' + props.item.id"
               )
                 v-icon edit
               span#entry-table-expand-edit

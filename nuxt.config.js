@@ -74,6 +74,10 @@ module.exports = {
     '~/plugins/vee-validate.js',
     '~/plugins/vuetify.js',
     {
+      'src': '~/plugins/vue-mce.js',
+      'ssr': false,
+    },
+    {
       'src': '~/plugins/vue-cookies.js',
       'ssr': false,
     },

@@ -1,5 +1,6 @@
 <script>
 import entryQuery from './entry.gql'
+import updateEntryMutation from './update-entry.gql'
 import vueMce from '~/components/core/mce-editor'
 
 export default {
@@ -9,22 +10,37 @@ export default {
   'components': {
     vueMce,
   },
-  'apollo': {
-    'entry': {
+  async asyncData ({error, app, params,}) {
+    const {data,} = await app.apolloProvider.defaultClient.query({
       'query':     entryQuery,
-      'prefetch':  true,
       'variables': {
-        'id': 'cjmqjyu4c00a90810815pe44g',
+        'id': params.id,
       },
-    },
+    })
+
+    if (!data.entry) {
+      return error({
+        'statusCode': 404,
+        'message':    'Entry not found',
+      })
+    }
+
+    return {
+      'entry': data.entry,
+    }
   },
   data () {
     return {
+      'saving':  false,
       'changed': false,
+      'leaving': false,
     }
   },
-  async beforeRouteLeave (to, from, next) {
-    return next()
+  beforeRouteLeave (to, from, next) {
+    this.leaving = true
+    const wait = new Promise((resolve) => setTimeout(resolve, 150))
+
+    return wait.then(next)
   },
   'methods': {
     getHeight () {
@@ -34,6 +50,30 @@ export default {
 
       return window.innerHeight - 263
     },
+    async saveEntry () {
+      this.saving = true
+
+      try {
+        await this.$apollo.mutate({
+          'mutation':  updateEntryMutation,
+          'variables': {
+            'data': {
+              'id':        this.entry.id,
+              'display':   this.entry.display,
+              'content':   this.entry.content,
+              'published': true,
+            },
+          },
+        })
+      } catch (error) {
+        this.saving = false
+        this.changed = true
+        return null
+      }
+
+      this.saving = false
+      this.changed = false
+    },
   },
 }
 </script>
@@ -41,21 +81,26 @@ export default {
 <template lang="pug">
 .route-root.is-paddingless
   v-toolbar(dark)
-    v-badge(right, v-model="changed", color="error")
-      v-tooltip(slot="badge", bottom)
-        span(slot="activator") &nbsp;
-        span Has unsaved changes
-      h1 {{entry.display}}
+    h1 {{entry.display}}
 
     v-spacer
 
-    v-btn(
-      @click="changed = false"
-      fab
-      color="primary"
-      small
-    )
-      v-icon save
+    transition(name="zoom")
+      v-btn(
+        v-show="changed"
+        @click="saveEntry"
+        fab
+        color="primary"
+        small
+        :loading="saving"
+      )
+        v-icon save
 
-  vue-mce(v-model="entry.content", :getHeight="getHeight", @input="changed = true")
+  transition(name="fade")
+    vue-mce(
+      v-show="!leaving"
+      v-model="entry.content",
+      :getHeight="getHeight",
+      @input="changed = true"
+    )
 </template>

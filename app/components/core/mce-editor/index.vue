@@ -122,10 +122,10 @@ export default {
             'pagebreak anchor',
           ].join(' | '),
           [
+            'forecolor backcolor fontselect',
             'image media link nonbreaking',
             'table insertdatetime toc',
             'paste searchreplace',
-            'forecolor backcolor',
             'fullscreen preview',
             // 'emoticons',
             // 'ltr rtl',

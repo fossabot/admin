@@ -15,13 +15,13 @@ const uaLink = (operation, forward) => {
 
 const retryLink = new RetryLink({
   'delay': {
-    'initial': 300,
-    'max':     1500,
+    'initial': 500,
+    'max':     2000,
     'jitter':  true,
   },
   'attempts': {
-    'max':     5,
-    'retryIf': (error) => !!error,
+    'max':     3,
+    'retryIf': (error) => !error,
   },
 })
 

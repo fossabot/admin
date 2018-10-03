@@ -3,7 +3,7 @@ import {RetryLink,} from 'apollo-link-retry'
 import {from,} from 'apollo-link'
 
 const errorLink = onError(({graphQLErrors, networkError, response = {},}) => {
-  if (graphQLErrors) {
+  if (networkError) {
     response.errors = null
   }
 })
@@ -15,8 +15,8 @@ const retryLink = new RetryLink({
     'jitter':  true,
   },
   'attempts': {
-    'max':     15,
-    'retryIf': (error) => !!error,
+    'max':     Infinity,
+    'retryIf': (error) => !error,
   },
 })
 

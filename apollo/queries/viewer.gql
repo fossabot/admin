@@ -2,5 +2,12 @@ query {
   viewer {
     id
     display
+    avatarUrl
+    createdAt
+    sessions {
+      id
+      ip
+      ua
+    }
   }
 }

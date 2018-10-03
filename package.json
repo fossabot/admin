@@ -75,6 +75,7 @@
     "postcss-will-change": "^3.0.0",
     "postcss-will-change-transition": "^1.2.0",
     "rucksack-css": "^1.0.2",
+    "superstruct": "^0.6.0",
     "tinymce": "^4.8.3",
     "vee-validate": "^2.1.0-beta.9",
     "vue-markdown": "^2.2.4",

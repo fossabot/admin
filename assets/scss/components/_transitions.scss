@@ -122,10 +122,14 @@
  */
 
 .zoom- {
-  &enter-active,
+  &enter-active {
+    transition:
+      transform .3s ease-out;
+  }
+
   &leave-active {
     transition:
-      transform .3s ease-in-out;
+      transform .15s ease-in;
   }
 
   &enter,

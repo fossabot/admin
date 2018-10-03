@@ -1,3 +1,5 @@
+// const nodeExternals = require('webpack-node-externals')
+
 const rucksack = require('rucksack-css')
 const willChange = require('postcss-will-change')
 const willChangeTransition = require('postcss-will-change-transition')
@@ -19,8 +21,9 @@ const postcss = [
 
 module.exports = {
   // dev,
-  'srcDir': './app',
-  'head':   {
+  'srcDir':  './app',
+  'loading': '~/components/core/loading.vue',
+  'head':    {
     'titleTemplate': 'Graphline Admin',
     'meta':          [
       {'charset': 'utf-8',},
@@ -49,6 +52,21 @@ module.exports = {
   'build': {
     postcss,
 
+    // extend (config, {isClient,}) {
+    //   if (isClient) {
+    //     config.externals = Object.assign({}, config.externals, nodeExternals({
+    //       'whitelist': [
+    //         /\.(eot|woff|woff2|ttf|otf)$/,
+    //         /\.(svg|png|jpg|jpeg|gif|ico|webm)$/,
+    //         /\.(mp4|mp3|ogg|swf|webp)$/,
+    //         /\.(css|scss|sass|less|styl)$/,
+    //       ],
+    //     }))
+    //   }
+    //
+    //   return config
+    // },
+
     // 'extractCSS':   true,
     // 'optimization': {
     //   'splitChunks': {
@@ -73,6 +91,7 @@ module.exports = {
     '~/plugins/vue-noscript.js',
     '~/plugins/vee-validate.js',
     '~/plugins/vuetify.js',
+    '~/plugins/vuex-persistedstate.js',
     {
       'src': '~/plugins/vue-mce.js',
       'ssr': false,

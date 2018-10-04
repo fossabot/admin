@@ -51,36 +51,6 @@ module.exports = {
   ],
   'build': {
     postcss,
-
-    // extend (config, {isClient,}) {
-    //   if (isClient) {
-    //     config.externals = Object.assign({}, config.externals, nodeExternals({
-    //       'whitelist': [
-    //         /\.(eot|woff|woff2|ttf|otf)$/,
-    //         /\.(svg|png|jpg|jpeg|gif|ico|webm)$/,
-    //         /\.(mp4|mp3|ogg|swf|webp)$/,
-    //         /\.(css|scss|sass|less|styl)$/,
-    //       ],
-    //     }))
-    //   }
-    //
-    //   return config
-    // },
-
-    // 'extractCSS':   true,
-    // 'optimization': {
-    //   'splitChunks': {
-    //     'name':        true,
-    //     'cacheGroups': {
-    //       'styles': {
-    //         'name':    'styles',
-    //         'test':    /\.(css|vue)$/,
-    //         'chunks':  'all',
-    //         'enforce': true,
-    //       },
-    //     },
-    //   },
-    // },
   },
   'env':     process.env,
   'plugins': [

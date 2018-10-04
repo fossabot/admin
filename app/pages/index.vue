@@ -36,7 +36,7 @@ code {
 
           ul
             li(v-for="session in viewer.sessions")
-              | {{session.ip}} - {{session.ua}}
+              | {{session.createdAt | moment('from', 'now')}} - {{session.ua}}
 
         v-spacer
         pre

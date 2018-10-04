@@ -5,21 +5,19 @@ import {link as serverLink,} from './_server-link'
 export default ({req,}) => {
   return {
     'httpEndpoint':    process.env.API_HTTP,
-    // 'wsEndpoint':      process.env.API_WS,
+    'wsEndpoint':      process.env.API_WS,
     'httpLinkOptions': {
       'credentials': 'same-origin',
     },
 
     'link': process.server
-      ? serverLink
-      : browserLink,
+      ? serverLink()
+      : browserLink(),
 
     getAuth (tokenName) {
-      if (process.server) {
-        return `Bearer ${req.cookies[tokenName]}`
-      }
-
-      return `Bearer ${cookie.get(tokenName)}`
+      return process.server
+        ? `Bearer ${req.cookies[tokenName]}`
+        : `Bearer ${cookie.get(tokenName)}`
     },
   }
 }

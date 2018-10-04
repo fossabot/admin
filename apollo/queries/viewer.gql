@@ -5,6 +5,7 @@ query {
     avatarUrl
     createdAt
     sessions {
+      createdAt
       id
       ip
       ua
